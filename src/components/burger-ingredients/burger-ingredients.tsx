@@ -45,7 +45,7 @@ export const BurgerIngredients: FC = () => {
   // Вычисляем счётчики
   const counts: Record<string, number> = {};
   if (bun) {
-    counts[bun._id] = (counts[bun._id] || 0) + 1;
+    counts[bun._id] = (counts[bun._id] || 0) + 2; // Булка добавляется 2 раза (верх + низ)
   }
   constructorIngredients.forEach((item) => {
     counts[item._id] = (counts[item._id] || 0) + 1;

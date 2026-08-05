@@ -24,7 +24,6 @@ export const BurgerConstructor: FC = () => {
   const user = useSelector(selectUser);
 
   const onOrderClick = () => {
-    // Если пользователь не авторизован — перенаправляем на логин
     if (!user) {
       navigate('/login');
       return;
@@ -43,7 +42,10 @@ export const BurgerConstructor: FC = () => {
 
   const closeOrderModal = () => {
     dispatch(clearOrder());
-    dispatch(clearConstructor());
+    // Очищаем конструктор только после положительного ответа сервера
+    if (orderModalData) {
+      dispatch(clearConstructor());
+    }
   };
 
   const price = useMemo(() => {

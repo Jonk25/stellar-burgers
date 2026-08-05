@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useSelector } from '../../services/store';
-import { getUser } from '../../services/slices/userSlice';
+import { selectUser } from '../../services/slices/userSlice';
 import {
   BurgerIcon,
   ListIcon,
@@ -11,8 +11,7 @@ import {
 import styles from './app-header.module.css';
 
 export const AppHeader: FC = () => {
-  const location = useLocation();
-  const user = useSelector(getUser);
+  const user = useSelector(selectUser);
   const userName = user?.name || '';
 
   return (
@@ -22,26 +21,32 @@ export const AppHeader: FC = () => {
           <NavLink
             to='/'
             className={({ isActive }) =>
-              `${styles.link} ${isActive ? styles.active : ''}`
+              `${styles.link} ${isActive ? styles.link_active : ''}`
             }
           >
-            <BurgerIcon
-              type={location.pathname === '/' ? 'primary' : 'secondary'}
-            />
-            <p className='text text_type_main-default ml-2 mr-10'>
-              Конструктор
-            </p>
+            {({ isActive }) => (
+              <>
+                <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
+                <p className={`text text_type_main-default ml-2 mr-10 ${isActive ? '' : 'text_color_inactive'}`}>
+                  Конструктор
+                </p>
+              </>
+            )}
           </NavLink>
           <NavLink
             to='/feed'
             className={({ isActive }) =>
-              `${styles.link} ${isActive ? styles.active : ''}`
+              `${styles.link} ${isActive ? styles.link_active : ''}`
             }
           >
-            <ListIcon
-              type={location.pathname === '/feed' ? 'primary' : 'secondary'}
-            />
-            <p className='text text_type_main-default ml-2'>Лента заказов</p>
+            {({ isActive }) => (
+              <>
+                <ListIcon type={isActive ? 'primary' : 'secondary'} />
+                <p className={`text text_type_main-default ml-2 ${isActive ? '' : 'text_color_inactive'}`}>
+                  Лента заказов
+                </p>
+              </>
+            )}
           </NavLink>
         </div>
 
@@ -55,19 +60,17 @@ export const AppHeader: FC = () => {
           <NavLink
             to='/profile'
             className={({ isActive }) =>
-              `${styles.link} ${isActive ? styles.active : ''}`
+              `${styles.link} ${isActive ? styles.link_active : ''}`
             }
           >
-            <ProfileIcon
-              type={
-                location.pathname.startsWith('/profile')
-                  ? 'primary'
-                  : 'secondary'
-              }
-            />
-            <p className='text text_type_main-default ml-2'>
-              {userName || 'Личный кабинет'}
-            </p>
+            {({ isActive }) => (
+              <>
+                <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+                <p className={`text text_type_main-default ml-2 ${isActive ? '' : 'text_color_inactive'}`}>
+                  {userName || 'Личный кабинет'}
+                </p>
+              </>
+            )}
           </NavLink>
         </div>
       </nav>

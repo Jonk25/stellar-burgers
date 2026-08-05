@@ -23,11 +23,12 @@ import { getUser } from '../../services/slices/userSlice';
 import { getCookie } from '../../utils/cookie';
 
 import { authChecked } from '../../services/slices/userSlice';
+import styles from './app.module.css';
 
 export const App = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const backgroundLocation = location.state?.backgroundLocation;
+  const backgroundLocation = location.state?.background;
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -40,7 +41,7 @@ export const App = () => {
   }, [dispatch]);
 
   return (
-    <div className='app'>
+    <div className={styles.app}>
       <AppHeader />
 
       <Routes location={backgroundLocation || location}>
