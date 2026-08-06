@@ -27,7 +27,9 @@ export const AppHeader: FC = () => {
             {({ isActive }) => (
               <>
                 <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
-                <p className={`text text_type_main-default ml-2 mr-10 ${isActive ? '' : 'text_color_inactive'}`}>
+                <p
+                  className={`text text_type_main-default ml-2 mr-10 ${isActive ? '' : 'text_color_inactive'}`}
+                >
                   Конструктор
                 </p>
               </>
@@ -42,7 +44,9 @@ export const AppHeader: FC = () => {
             {({ isActive }) => (
               <>
                 <ListIcon type={isActive ? 'primary' : 'secondary'} />
-                <p className={`text text_type_main-default ml-2 ${isActive ? '' : 'text_color_inactive'}`}>
+                <p
+                  className={`text text_type_main-default ml-2 ${isActive ? '' : 'text_color_inactive'}`}
+                >
                   Лента заказов
                 </p>
               </>
@@ -66,7 +70,9 @@ export const AppHeader: FC = () => {
             {({ isActive }) => (
               <>
                 <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
-                <p className={`text text_type_main-default ml-2 ${isActive ? '' : 'text_color_inactive'}`}>
+                <p
+                  className={`text text_type_main-default ml-2 ${isActive ? '' : 'text_color_inactive'}`}
+                >
                   {userName || 'Личный кабинет'}
                 </p>
               </>

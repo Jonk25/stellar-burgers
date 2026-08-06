@@ -32,20 +32,29 @@ export const ProfileOrders: FC = () => {
   if (isLoading) return <Preloader />;
 
   return (
-    <div style={{ display: 'flex', gap: '60px', maxWidth: '1240px', margin: '0 auto', padding: '20px 0' }}>
+    <div
+      style={{
+        display: 'flex',
+        gap: '60px',
+        maxWidth: '1240px',
+        margin: '0 auto',
+        padding: '20px 0'
+      }}
+    >
       {/* Меню слева */}
       <div style={{ flex: '0 0 320px' }}>
-        <ProfileMenuUI pathname={location.pathname} handleLogout={handleLogout} />
+        <ProfileMenuUI
+          pathname={location.pathname}
+          handleLogout={handleLogout}
+        />
       </div>
 
       {/* Список заказов справа */}
       <div style={{ flex: 1 }}>
         {orders.length === 0 ? (
-          <p className="text text_type_main-medium">У вас пока нет заказов</p>
+          <p className='text text_type_main-medium'>У вас пока нет заказов</p>
         ) : (
-          orders.map((order) => (
-            <OrderCard key={order._id} order={order} />
-          ))
+          orders.map((order) => <OrderCard key={order._id} order={order} />)
         )}
       </div>
     </div>
