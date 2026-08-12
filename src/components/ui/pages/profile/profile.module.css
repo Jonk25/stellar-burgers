@@ -1,7 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 60px; /* отступ между меню и формой */
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
 .menu {
-  width: 320px;
+  flex: 0 0 320px; /* фиксированная ширина меню */
 }
 
 .form {
+  flex: 1; /* форма занимает оставшееся место */
   max-width: 480px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin-top: 10px;
+  width: 100%;
 }

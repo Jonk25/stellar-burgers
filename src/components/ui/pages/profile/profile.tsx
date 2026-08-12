@@ -1,91 +1,66 @@
-import { FC } from 'react';
-
-import { Button, Input } from '@zlden/react-developer-burger-ui-components';
-import styles from './profile.module.css';
-import commonStyles from '../common.module.css';
-
+import React, { FC } from 'react';
 import { ProfileUIProps } from './type';
-import { ProfileMenu } from '@components';
+import { ProfileMenuUI } from '../../profile-menu';
+import styles from './profile.module.css';
+import { Input, Button } from '@zlden/react-developer-burger-ui-components';
 
 export const ProfileUI: FC<ProfileUIProps> = ({
   formValue,
   isFormChanged,
-  updateUserError,
-  handleSubmit,
   handleCancel,
-  handleInputChange
+  handleSubmit,
+  handleInputChange,
+  handleLogout
 }) => (
-  <main className={`${commonStyles.container}`}>
-    <div className={`mt-30 mr-15 ${styles.menu}`}>
-      <ProfileMenu />
+  <div className={styles.container}>
+    <div className={styles.menu}>
+      <ProfileMenuUI pathname='/profile' handleLogout={handleLogout} />
     </div>
-    <form
-      className={`mt-30 ${styles.form} ${commonStyles.form}`}
-      onSubmit={handleSubmit}
-    >
-      <>
-        <div className='pb-6'>
-          <Input
-            type={'text'}
-            placeholder={'Имя'}
-            onChange={handleInputChange}
-            value={formValue.name}
-            name={'name'}
-            error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
-          />
-        </div>
-        <div className='pb-6'>
-          <Input
-            type={'email'}
-            placeholder={'E-mail'}
-            onChange={handleInputChange}
-            value={formValue.email}
-            name={'email'}
-            error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
-          />
-        </div>
-        <div className='pb-6'>
-          <Input
-            type={'password'}
-            placeholder={'Пароль'}
-            onChange={handleInputChange}
-            value={formValue.password}
-            name={'password'}
-            error={false}
-            errorText={''}
-            size={'default'}
-            icon={'EditIcon'}
-          />
-        </div>
-        {isFormChanged && (
-          <div className={styles.button}>
-            <Button
-              type='secondary'
-              htmlType='button'
-              size='medium'
-              onClick={handleCancel}
-            >
-              Отменить
-            </Button>
-            <Button type='primary' size='medium' htmlType='submit'>
-              Сохранить
-            </Button>
-          </div>
-        )}
-        {updateUserError && (
-          <p
-            className={`${commonStyles.error} pt-5 text text_type_main-default`}
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <Input
+        type='text'
+        placeholder='Имя'
+        name='name'
+        value={formValue.name}
+        onChange={handleInputChange}
+        size='default'
+        extraClass='mb-3'
+      />
+      <Input
+        type='email'
+        placeholder='E-mail'
+        name='email'
+        value={formValue.email}
+        onChange={handleInputChange}
+        size='default'
+        extraClass='mb-3'
+      />
+      <Input
+        type='password'
+        placeholder='Пароль'
+        name='password'
+        value={formValue.password}
+        onChange={handleInputChange}
+        size='default'
+        extraClass='mb-3'
+        icon='EditIcon'
+      />
+      {isFormChanged && (
+        <div className={styles.buttons}>
+          <Button
+            type='secondary'
+            size='medium'
+            htmlType='button'
+            onClick={handleCancel}
+            extraClass='mr-2'
           >
-            {updateUserError}
-          </p>
-        )}
-      </>
+            Отменить
+          </Button>
+          <Button type='primary' size='medium' htmlType='submit'>
+            Сохранить
+          </Button>
+        </div>
+      )}
     </form>
-  </main>
+  </div>
 );
