@@ -20,7 +20,10 @@ const mockUser = {
 
 describe('userSlice', () => {
   it('должен обработать loginUser.pending', () => {
-    const state = reducer(initialState, loginUser.pending('', { email: '', password: '' }));
+    const state = reducer(
+      initialState,
+      loginUser.pending('', { email: '', password: '' })
+    );
     expect(state.loginRequest).toBe(true);
     expect(state.loginError).toBeNull();
   });
@@ -28,7 +31,10 @@ describe('userSlice', () => {
   it('должен обработать loginUser.fulfilled', () => {
     const state = reducer(
       initialState,
-      loginUser.fulfilled(mockUser, '', { email: 'test@test.com', password: '123' })
+      loginUser.fulfilled(mockUser, '', {
+        email: 'test@test.com',
+        password: '123'
+      })
     );
     expect(state.loginRequest).toBe(false);
     expect(state.user).toEqual(mockUser);
@@ -49,7 +55,11 @@ describe('userSlice', () => {
   it('должен обработать registerUser.fulfilled', () => {
     const state = reducer(
       initialState,
-      registerUser.fulfilled(mockUser, '', { email: '', name: '', password: '' })
+      registerUser.fulfilled(mockUser, '', {
+        email: '',
+        name: '',
+        password: ''
+      })
     );
     expect(state.user).toEqual(mockUser);
     expect(state.isAuthChecked).toBe(true);

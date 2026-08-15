@@ -35,20 +35,14 @@ describe('orderSlice', () => {
       name: 'Test burger',
       order: mockOrder
     };
-    const state = reducer(
-      initialState,
-      createOrder.fulfilled(payload, '', [])
-    );
+    const state = reducer(initialState, createOrder.fulfilled(payload, '', []));
     expect(state.isLoading).toBe(false);
     expect(state.order).toMatchObject({ number: 12345 });
   });
 
   it('должен обработать createOrder.rejected', () => {
     const error = new Error('Ошибка создания заказа');
-    const state = reducer(
-      initialState,
-      createOrder.rejected(error, '', [])
-    );
+    const state = reducer(initialState, createOrder.rejected(error, '', []));
     expect(state.isLoading).toBe(false);
     expect(state.error).toBe('Ошибка создания заказа');
   });

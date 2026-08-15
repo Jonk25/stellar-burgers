@@ -4,7 +4,7 @@ import reducer, {
   moveIngredient,
   clearConstructor
 } from './constructorSlice';
-import { TIngredient, TConstructorIngredient } from '../../utils/types';
+import { TIngredient } from '../../utils/types';
 
 const bun: TIngredient = {
   _id: '643d69a5c3f7b9001cfa093c',
@@ -15,9 +15,9 @@ const bun: TIngredient = {
   carbohydrates: 53,
   calories: 420,
   price: 1255,
-  image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png'
+  image: '',
+  image_mobile: '',
+  image_large: ''
 };
 
 const main: TIngredient = {
@@ -29,51 +29,64 @@ const main: TIngredient = {
   carbohydrates: 242,
   calories: 4242,
   price: 424,
-  image: 'https://code.s3.yandex.net/react/code/meat-01.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
-  image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png'
-};
-
-const initialState = {
-  bun: null as TConstructorIngredient | null,
-  ingredients: [] as TConstructorIngredient[]
+  image: '',
+  image_mobile: '',
+  image_large: ''
 };
 
 describe('constructorSlice', () => {
+  it('должен вернуть начальное состояние', () => {
+    expect(reducer(undefined, { type: '' })).toEqual({
+      bun: null,
+      ingredients: []
+    });
+  });
+
   it('должен обработать addIngredient для булки', () => {
-    const state = reducer(initialState, addIngredient(bun));
+    const state = reducer(undefined, addIngredient(bun));
     expect(state.bun).not.toBeNull();
-    expect(state.bun?.name).toBe(bun.name);
-    expect(state.bun).toHaveProperty('id');
+    expect(state.bun?._id).toBe(bun._id);
+    expect(state.ingredients).toHaveLength(0);
   });
 
   it('должен обработать addIngredient для начинки', () => {
-    const state = reducer(initialState, addIngredient(main));
+    const state = reducer(undefined, addIngredient(main));
+    expect(state.bun).toBeNull();
     expect(state.ingredients).toHaveLength(1);
-    expect(state.ingredients[0].name).toBe(main.name);
-    expect(state.ingredients[0].id).toEqual(expect.any(String));
+    expect(state.ingredients[0]._id).toBe(main._id);
+    expect(state.ingredients[0]).toHaveProperty('id');
   });
 
   it('должен обработать removeIngredient', () => {
-    const addedState = reducer(initialState, addIngredient(main));
-    const id = addedState.ingredients[0].id;
-    const state = reducer(addedState, removeIngredient(id));
+    let state = reducer(undefined, addIngredient(main));
+    const id = state.ingredients[0].id;
+    state = reducer(state, removeIngredient(id));
     expect(state.ingredients).toHaveLength(0);
   });
 
   it('должен обработать moveIngredient', () => {
-    const state1 = reducer(initialState, addIngredient(main));
-    const state2 = reducer(state1, addIngredient({ ...main, _id: '2', name: 'Соус' }));
-    const state3 = reducer(state2, moveIngredient({ from: 0, to: 1 }));
-    expect(state3.ingredients[0].name).toBe('Соус');
-    expect(state3.ingredients[1].name).toBe(main.name);
+    const main2: TIngredient = { ...main, _id: '3', name: 'Соус' };
+    let state = reducer(undefined, addIngredient(main));
+    state = reducer(state, addIngredient(main2));
+    state = reducer(state, moveIngredient({ from: 0, to: 1 }));
+    expect(state.ingredients[0].name).toBe('Соус');
+    expect(state.ingredients[1].name).toBe(main.name);
   });
 
   it('должен обработать clearConstructor', () => {
-    const state1 = reducer(initialState, addIngredient(bun));
-    const state2 = reducer(state1, addIngredient(main));
-    const state3 = reducer(state2, clearConstructor());
-    expect(state3.bun).toBeNull();
-    expect(state3.ingredients).toHaveLength(0);
+    let state = reducer(undefined, addIngredient(bun));
+    state = reducer(state, addIngredient(main));
+    state = reducer(state, clearConstructor());
+    expect(state.bun).toBeNull();
+    expect(state.ingredients).toHaveLength(0);
+  });
+
+  it('не должен изменять состояние при неизвестном экшене', () => {
+    const initialState = {
+      bun: null,
+      ingredients: []
+    };
+    const action = { type: 'UNKNOWN_ACTION' };
+    expect(reducer(initialState, action)).toEqual(initialState);
   });
 });
